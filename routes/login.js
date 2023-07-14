@@ -8,7 +8,7 @@ router.post('/', (req, res) => {
   const { username, password } = req.body;
 
   // Query the database to validate the username and password
-  const query = 'SELECT * FROM User WHERE Username = ? AND Password = ?';
+  const query = 'SELECT * FROM Users WHERE Username = ? AND Password = ?';
   db.query(query, [username, password], (err, result) => {
     if (err) {
       console.error('Error executing SQL query: ', err);
@@ -18,6 +18,7 @@ router.post('/', (req, res) => {
 
     // Check if the user exists
     if (result.length === 0) {
+      console.log('Invalid username or password:', username);
       res.status(401).json({ error: 'Invalid username or password' });
       return;
     }
@@ -26,15 +27,17 @@ router.post('/', (req, res) => {
     const user = result[0]; // Assuming the result contains the user data
     const token = generateJwtToken(user.UserID, user.Username);
 
+    console.log('Login successful:', username);
     // Return the token to the client
     res.json({ token });
   });
 });
 
+
 // Function to generate a JWT token
 function generateJwtToken(userID, username) {
   const secretKey = 'your_secret_key'; // Replace with your secret key
-  const token = jwt.sign({ userID, username }, secretKey);
+  const token = jwt.sign({ userID, username }, secretKey, { expiresIn: '1h' }); // Set the token expiration time as desired
   return token;
 }
 

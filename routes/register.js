@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Registration route with file upload
-router.post('/', upload.single('userImage'), (req, res) => {
+router.post('/', upload.single('userimage'), (req, res) => {
   // Generate a random alphanumeric UserID
   const userID = generateRandomAlphanumeric(10); // Specify the desired length of the UserID
 
@@ -25,15 +25,15 @@ router.post('/', upload.single('userImage'), (req, res) => {
   const { name, username, email, phone, password } = req.body;
 
   // Get the uploaded file information
-  const userImage = req.file;
+  const userimage = req.file;
 
   // Debugging: Print the values of req.file and userImage.buffer
   console.log('req.file:', req.file);
-  console.log('userImage.buffer:', userImage.buffer);
+  console.log('userImage.buffer:', userimage.buffer);
 
   // Insert the user data into the database
-  const query = 'INSERT INTO User (UserID, Name, Username, Email, Phone, Password, UserImage) VALUES (?, ?, ?, ?, ?, ?, ?)';
-  db.query(query, [userID, name, username, email, phone, password, userImage.buffer], (err, result) => {
+  const query = 'INSERT INTO Users (UserID, Name, Username, Email, Phone, Password, Userimage) VALUES (?, ?, ?, ?, ?, ?, ?)';
+  db.query(query, [userID, name, username, email, phone, password, userimage.buffer], (err, result) => {
     if (err) {
       console.error('Error executing SQL query: ', err);
       res.status(500).json({ error: 'Internal server error' });
