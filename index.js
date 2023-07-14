@@ -13,9 +13,11 @@ app.use(cors());
 // Routes
 const loginRoutes = require('./routes/login');
 const registerRoutes = require('./routes/register');
+const profileRoutes = require('./routes/Profile');
 
 app.use('/api/login', loginRoutes);
 app.use('/api/register', registerRoutes);
+app.use('/api/profile', profileRoutes);
 
 // Default route
 app.get("/", (req, res) => {

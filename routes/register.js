@@ -1,18 +1,39 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../services/db');
+const multer = require('multer');
 
-// Registration route
-router.post('/', (req, res) => {
+// Set up storage for multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Specify the directory to save the uploaded files
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // Use the original filename for saving the file
+  }
+});
+
+// Set up multer upload middleware
+const upload = multer({ storage });
+
+// Registration route with file upload
+router.post('/', upload.single('userImage'), (req, res) => {
   // Generate a random alphanumeric UserID
   const userID = generateRandomAlphanumeric(10); // Specify the desired length of the UserID
 
   // Extract other data from the request body
   const { name, username, email, phone, password } = req.body;
 
+  // Get the uploaded file information
+  const userImage = req.file;
+
+  // Debugging: Print the values of req.file and userImage.buffer
+  console.log('req.file:', req.file);
+  console.log('userImage.buffer:', userImage.buffer);
+
   // Insert the user data into the database
-  const query = 'INSERT INTO User (UserID, Name, Username, Email, Phone, Password) VALUES (?, ?, ?, ?, ?, ?)';
-  db.query(query, [userID, name, username, email, phone, password], (err, result) => {
+  const query = 'INSERT INTO User (UserID, Name, Username, Email, Phone, Password, UserImage) VALUES (?, ?, ?, ?, ?, ?, ?)';
+  db.query(query, [userID, name, username, email, phone, password, userImage.buffer], (err, result) => {
     if (err) {
       console.error('Error executing SQL query: ', err);
       res.status(500).json({ error: 'Internal server error' });
@@ -34,3 +55,4 @@ function generateRandomAlphanumeric(length) {
 }
 
 module.exports = router;
+
