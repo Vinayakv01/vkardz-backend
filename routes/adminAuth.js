@@ -35,7 +35,7 @@ router.post('/', (req, res) => {
 
     res.cookie('adminJwtToken', token, {
       httpOnly: true,
-      maxAge: 3600000,
+      maxAge: 30 * 24 * 60 * 60 * 1000,
     });
     res.json({ message: 'Admin login successful',AdminID : admin.AdminID,userType: 'admin'});
   });

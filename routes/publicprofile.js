@@ -15,7 +15,7 @@ console.log('User Token:', userToken);
 // Check if the user has a token
 if (!userToken) {
   const newToken = jwt.sign({ userID }, 'your-secret-key'); // Generate a new JWT token
-  const oneMonthInSeconds = 30 * 24 * 60 * 60; // 1 month in seconds
+  const oneMonthInSeconds = 12 * 60 * 60; // 1 month in seconds
   res.cookie('userToken', newToken, { maxAge: oneMonthInSeconds * 1000 }); 
   console.log('userToken:', newToken);
 // Set the token as a cookie with 1-month expiration

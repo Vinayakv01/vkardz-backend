@@ -24,7 +24,7 @@ router.get('/:userID', (req, res) => {
       }
   
       const userImageFileName = result[0].Userimage;
-      const imageURL = `http://192.168.1.14:3000/uploads/${userImageFileName}`; // Update with your server URL
+      const imageURL = `http://localhost:3000/uploads/${userImageFileName}`; // Update with your server URL
       res.status(200).json({ imageURL }); // Redirect the user to the image URL
     });
   });

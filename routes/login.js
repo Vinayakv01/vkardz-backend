@@ -35,7 +35,7 @@ router.post('/', (req, res) => {
     // Set the JWT token as an HTTP-only cookie in the response
     res.cookie('jwtToken', token, {
       httpOnly: true,
-      maxAge: 3600000, // 1 hour in milliseconds
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 1 hour in milliseconds
     });
 
     // Return a success message to the client (optional)

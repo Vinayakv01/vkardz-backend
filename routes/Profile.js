@@ -53,6 +53,7 @@ router.post('/',authenticate, (req, res) => {
 });
 
 
+
 //selecrted Profile (get user profile based on userID (array of profiles))
 router.get('/', authenticate, (req, res) => {
   // Get the authenticated user's ID from the request
@@ -116,6 +117,7 @@ router.get('/', authenticate, (req, res) => {
 
 
 
+
 // Route to get the user's profile
 router.get('/:profileID', authenticate, (req, res) => {
   // Get the authenticated user's ID from the request
@@ -169,6 +171,7 @@ router.get('/:profileID', authenticate, (req, res) => {
     });
   });
 });
+
 
 
 // Route to get the user's default profile
@@ -225,6 +228,7 @@ router.get('/:userID', (req, res) => {
 
 
 
+
 // Route to update the user's profile's IsDefaultProfile value
 router.put('/update-default/:profileID', authenticate, (req, res) => {
   const userID = req.userID;
@@ -256,6 +260,7 @@ router.put('/update-default/:profileID', authenticate, (req, res) => {
     }
   );
 });
+
 
 
 // Route to update the user's profile including customfields
@@ -338,6 +343,7 @@ router.put('/:profileID', authenticate, (req, res) => {
 });
 
 
+
 // Route to delete a custom field
 router.delete('/custom-field/:customFieldID', authenticate, (req, res) => {
   const userID = req.userID;
@@ -360,6 +366,7 @@ router.delete('/custom-field/:customFieldID', authenticate, (req, res) => {
     res.status(200).json({ message: 'Custom field deleted successfully' });
   });
 });
+
 
 
 

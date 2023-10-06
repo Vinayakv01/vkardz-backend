@@ -142,7 +142,7 @@ router.get('/:userID', authenticate, (req, res) => {
 
     const userImageFileName = result[0].Userimage;
     console.log('Retrieved userImageFileName:', userImageFileName); // Add this line for debugging
-    const imageURL = `http://192.168.1.14:3000/uploads/${userImageFileName}`;
+    const imageURL = `http://localhost:3000/uploads/${userImageFileName}`;
     res.status(200).json({ imageURL });
   });
 });
@@ -162,7 +162,7 @@ router.get('/:userID', authenticate, (req, res) => {
 
 
 // Add this route to register.js to get user table data all data
-router.get('/admin/getallusers', (req, res) => {
+router.get('/admin/getallusers',authenticate, (req, res) => {
   // Specify the columns you want to select, excluding userimage
   const query = 'SELECT UserID, Name, Username, Email, Phone, Password FROM users';
   db.query(query, (err, result) => {
@@ -180,7 +180,7 @@ router.get('/admin/getallusers', (req, res) => {
 
 
 //to update the userdata
-router.put('/admin/:userID', (req, res) => {
+router.put('/admin/:userID',authenticate, (req, res) => {
   const userID = req.params.userID;
   const { Name, Username, Email, Phone, Password } = req.body;
 
@@ -206,7 +206,7 @@ router.put('/admin/:userID', (req, res) => {
 
 
 //full user delete along with profile and customfield
-router.delete('/admin/:userID', async (req, res) => {
+router.delete('/admin/:userID',authenticate, async (req, res) => {
   const userID = req.params.userID;
 
   try {
@@ -271,7 +271,7 @@ async function deleteUser(userID) {
 
 
 // Add this route to register.js to add a new user
-router.post('/admin/adduser', (req, res) => {
+router.post('/admin/adduser',authenticate, (req, res) => {
   const { name, username, email, phone, password } = req.body;
 
   // Implement the logic to add a new user to the database
@@ -292,7 +292,7 @@ router.post('/admin/adduser', (req, res) => {
 
 
 //csv data update
-router.post('/admin/addusersfromcsv', (req, res) => {
+router.post('/admin/addusersfromcsv',authenticate, (req, res) => {
   const { csvData } = req.body;
 
     if (!Array.isArray(csvData)) {
@@ -320,3 +320,5 @@ router.post('/admin/addusersfromcsv', (req, res) => {
 });
 
 module.exports = router;
+
+
